@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biz Kimiz — KOUAI</title>
+<meta name="description" content="Kocaeli Üniversitesi Yapay Zeka Kulübü'nün hikâyesi, amacı, çalışma ekipleri ve kuruluşundan bugüne yolculuğu.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/svg+xml" href="assets/img/kouai-mark.svg">
+<link rel="alternate icon" href="Images/ai_community_kou_logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("kouai-tema");
+      if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">İçeriğe geç</a>
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<header class="header">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="KOUAI ana sayfa">
+      <span class="brand__mark" data-logo="amblem"></span>
+      <span class="brand__text">
+        <span class="brand__name">KOUAI</span>
+        <span class="brand__sub">Yapay Zeka Kulübü</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Ana menü">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="hakkimizda.html" aria-current="page">Biz Kimiz</a>
+      <a href="etkinlikler.html">Etkinlikler</a>
+      <a href="arsiv.html">Arşiv</a>
+      <a href="ekip.html">Yönetim Kurulu</a>
+      <a href="sponsorlar.html">Sponsorlar</a>
+    </nav>
+    <div class="header__actions">
+      <button class="theme-toggle" type="button" aria-label="Koyu temaya geç">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+      </button>
+      <a class="btn btn--primary btn--sm" href="index.html#iletisim">Aramıza Katıl</a>
+      <button class="burger" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobil-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobil-menu" aria-label="Mobil menü">
+  <a href="index.html">Ana Sayfa</a>
+  <a href="hakkimizda.html" aria-current="page">Biz Kimiz</a>
+  <a href="etkinlikler.html">Etkinlikler</a>
+  <a href="arsiv.html">Arşiv</a>
+  <a href="ekip.html">Yönetim Kurulu</a>
+  <a href="sponsorlar.html">Sponsorlar</a>
+  <a class="btn btn--primary" href="index.html#iletisim">Aramıza Katıl</a>
+</nav>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Sayfa konumu">
+        <a href="index.html">Ana Sayfa</a> <span>/</span> <span>Biz Kimiz</span>
+      </nav>
+      <span class="eyebrow" data-reveal>Hakkımızda</span>
+      <h1 data-reveal style="--delay:70ms">Bir kulüpten fazlası: <span class="grad-text">öğrenen bir topluluk</span></h1>
+      <p data-reveal style="--delay:140ms">
+        KOUAI, yapay zekaya meraklı öğrencilerin birbirine öğrettiği bir ortam kurmak için doğdu.
+        Amacımız dersin tamamlayıcısı olmak değil; kimsenin tek başına başlamak zorunda kalmadığı,
+        soru sormanın ayıp olmadığı bir çalışma alanı açmak.
+      </p>
+    </div>
+  </section>
+
+  <!-- Misyon / Vizyon / Değerler -->
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">
+        <article class="card card--feature" data-reveal>
+          <span class="num">01 / MİSYON</span>
+          <h3>Erişimi kolaylaştırmak</h3>
+          <p>Yapay zekayı öğrenmek için ne pahalı bir kursa ne de "doğru bölümde" olmaya ihtiyaç olmalı. Eğitimlerimiz ücretsiz, materyallerimiz açık, kapımız her bölüme açık.</p>
+        </article>
+        <article class="card card--feature" data-reveal style="--delay:80ms">
+          <span class="num">02 / VİZYON</span>
+          <h3>Üreten bir kampüs</h3>
+          <p>Kocaeli Üniversitesi'ni, öğrencilerin yapay zeka projelerini tüketmekle kalmayıp ürettiği ve yayımladığı bir merkeze dönüştürmek istiyoruz.</p>
+        </article>
+        <article class="card card--feature" data-reveal style="--delay:160ms">
+          <span class="num">03 / DEĞERLER</span>
+          <h3>Açıklık ve süreklilik</h3>
+          <p>Kodumuz açık, arşivimiz herkese açık, yönetim kurulumuz her yıl seçimle değişiyor. Bilgi tek bir dönemle sınırlı kalmasın diye her şeyi kayda geçiriyoruz.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hikâye -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="grid grid-2" style="gap:clamp(32px,5vw,64px);align-items:start">
+        <div data-reveal>
+          <span class="eyebrow">Hikâyemiz</span>
+          <h2>Yirmi dört kişilik bir çalışma grubundan <span class="grad-text">buraya.</span></h2>
+          <p style="color:var(--muted);margin-top:18px">
+            2021'de mühendislik fakültesinin bir dersliğinde, makine öğrenmesi çalışmak isteyen
+            yirmi dört öğrenci olarak toplandık. Elimizde ne bütçe ne de bir program vardı;
+            haftada bir buluşup birbirimize öğrettiklerimizle başladık.
+          </p>
+          <p style="color:var(--muted);margin-top:14px">
+            Beş yıl sonra aynı derslikten çıkan eğitimler yüzlerce kişiye ulaşıyor, kulüp
+            projelerimiz kampüsün gerçek problemlerine dokunuyor ve mezun ettiğimiz arkadaşlarımız
+            sektörde mentorluk yapmak için geri dönüyor. Yapmak istediğimiz tam olarak buydu.
+          </p>
+          <p style="margin-top:26px">
+            <a class="link-arrow" href="arsiv.html">
+              Dönem dönem yaptıklarımız
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </p>
+        </div>
+
+        <div class="timeline" data-reveal style="--delay:100ms">
+          <div class="timeline__item">
+            <div class="timeline__year">2021</div>
+            <h3>Kuruluş</h3>
+            <p>24 kurucu üye ile ilk genel kurul yapıldı, kulüp resmen tanındı.</p>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__year">2022</div>
+            <h3>İlk açık eğitim serisi</h3>
+            <p>Python Başlangıç Kampı ile kampüs genelinden katılıma açıldık.</p>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__year">2023</div>
+            <h3>Müfredat oturdu</h3>
+            <p>Veri bilimi ve makine öğrenmesi serileri standart bir programa dönüştü.</p>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__year">2024</div>
+            <h3>Sanayi iş birlikleri</h3>
+            <p>Teknopark Kocaeli ile kalıcı mentorluk programı başladı.</p>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__year">2025</div>
+            <h3>Yarışma takımları</h3>
+            <p>TEKNOFEST hazırlık kampından iki takım finale yükseldi.</p>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__year">2026</div>
+            <h3>İlk kariyer zirvesi</h3>
+            <p>Kulüp tarihinin en büyük organizasyonu 420 katılımcıyı ağırladı.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Çalışma ekipleri -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Çalışma Ekipleri</span>
+        <h2>Kulüp içinde <span class="grad-text">nerede yer alabilirsin?</span></h2>
+        <p>Dönem başında ekipler yeniden açılır. Birden fazla ekipte yer alabilir, dönem ortasında ekip değiştirebilirsin.</p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card" data-reveal>
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 17.5 3.5 12 8 6.5M16 6.5 20.5 12 16 17.5M13.5 4.5l-3 15"/></svg></div>
+          <h3>Derin Öğrenme</h3>
+          <p>Sinir ağı mimarileri, model eğitimi ve deney takibi. Bootcamp içeriklerini bu ekip hazırlıyor.</p>
+          <div class="tag-list"><span class="tag">PyTorch</span><span class="tag">Model eğitimi</span></div>
+        </article>
+        <article class="card" data-reveal style="--delay:70ms">
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></div>
+          <h3>Bilgisayarlı Görü</h3>
+          <p>Görüntü işleme, nesne tespiti ve takip. Erişilebilirlik projelerimizin çoğu buradan çıkıyor.</p>
+          <div class="tag-list"><span class="tag">OpenCV</span><span class="tag">YOLO</span></div>
+        </article>
+        <article class="card" data-reveal style="--delay:140ms">
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12c0 4.4-3.8 8-8.5 8-1.4 0-2.7-.3-3.9-.9L3.5 20.5l1.4-4.4A7.7 7.7 0 0 1 3.5 12c0-4.4 3.8-8 8.5-8s8.5 3.6 8.5 8Z"/><path d="M8.5 11h7M8.5 14h4.5"/></svg></div>
+          <h3>Dil Modelleri &amp; NLP</h3>
+          <p>Türkçe metin işleme, büyük dil modelleri ve retrieval mimarileri. Kampüs Asistanı bu ekibin işi.</p>
+          <div class="tag-list"><span class="tag">LLM</span><span class="tag">RAG</span></div>
+        </article>
+        <article class="card" data-reveal style="--delay:210ms">
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V4.5M4 19.5h16"/><rect x="7" y="11" width="3.2" height="6" rx="1"/><rect x="13.5" y="7" width="3.2" height="10" rx="1"/></svg></div>
+          <h3>Veri Bilimi</h3>
+          <p>Veri toplama, temizleme ve görselleştirme. Datathon içeriklerini ve açık veri setlerini bu ekip hazırlıyor.</p>
+          <div class="tag-list"><span class="tag">Pandas</span><span class="tag">Açık Veri</span></div>
+        </article>
+        <article class="card" data-reveal style="--delay:280ms">
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 4 7v5.5c0 4.5 3.3 7.5 8 8.5 4.7-1 8-4 8-8.5V7l-8-3.5Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <h3>Organizasyon</h3>
+          <p>Etkinlik planlama, sponsorluk görüşmeleri ve kurum içi yazışmalar. Teknik bilgi gerekmiyor.</p>
+          <div class="tag-list"><span class="tag">Etkinlik</span><span class="tag">Sponsorluk</span></div>
+        </article>
+        <article class="card" data-reveal style="--delay:350ms">
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8.5v.01M11 12h1v4h1"/></svg></div>
+          <h3>Tasarım &amp; Medya</h3>
+          <p>Afiş tasarımı, sosyal medya içerikleri ve etkinlik kayıtları. Tasarıma ilgi duyan herkese açık.</p>
+          <div class="tag-list"><span class="tag">Tasarım</span><span class="tag">İçerik</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sık sorulanlar -->
+  <section class="section section--sunken">
+    <div class="container" style="max-width:820px">
+      <div class="section-head section-head--center" data-reveal>
+        <span class="eyebrow">Sık Sorulanlar</span>
+        <h2>Merak edilenler</h2>
+      </div>
+
+      <div class="accordion" data-reveal>
+        <div class="acc-item">
+          <button class="acc-btn" type="button" aria-expanded="true" aria-controls="sss-1">
+            <h3>Hiç kod bilmiyorum, katılabilir miyim?</h3>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="acc-panel is-open" id="sss-1"><div><div class="inner">
+            <p style="color:var(--muted)">Evet, üyelerimizin önemli bir kısmı kulübe kod yazmadan katıldı. Dönem başındaki başlangıç serisi tam olarak bunun için var: Python'dan başlayıp temel makine öğrenmesine kadar adım adım ilerliyoruz. Ayrıca organizasyon ve tasarım ekiplerimizde teknik bilgi hiç gerekmiyor.</p>
+          </div></div></div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" type="button" aria-expanded="false" aria-controls="sss-2">
+            <h3>Üyelik ücretli mi?</h3>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="acc-panel" id="sss-2"><div><div class="inner">
+            <p style="color:var(--muted)">Hayır. Üyelik ve etkinliklerimizin neredeyse tamamı ücretsiz. Yalnızca şehir dışı teknik gezilerde ulaşım katkı payı isteyebiliyoruz; onu da sponsorluklarla mümkün olduğunca düşük tutuyoruz.</p>
+          </div></div></div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" type="button" aria-expanded="false" aria-controls="sss-3">
+            <h3>Sadece mühendislik öğrencileri mi üye olabiliyor?</h3>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="acc-panel" id="sss-3"><div><div class="inner">
+            <p style="color:var(--muted)">Hayır, kulüp üniversitenin tamamına açık. Tıp, hukuk, iletişim ve iktisat fakültelerinden üyelerimiz var; disiplinler arası bakış özellikle etik ve ürün tarafındaki çalışmalarımızı güçlendiriyor.</p>
+          </div></div></div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" type="button" aria-expanded="false" aria-controls="sss-4">
+            <h3>Etkinliklere dışarıdan katılım mümkün mü?</h3>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="acc-panel" id="sss-4"><div><div class="inner">
+            <p style="color:var(--muted)">Açık etkinliklerimize diğer üniversitelerden ve liselerden katılım kabul ediyoruz. Kontenjanlı atölyelerde önceliği kulüp üyelerine veriyoruz; kalan kontenjan kayıt sırasına göre açılıyor.</p>
+          </div></div></div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" type="button" aria-expanded="false" aria-controls="sss-5">
+            <h3>Kurumumuzla iş birliği yapmak istiyoruz, nasıl ilerleyelim?</h3>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="acc-panel" id="sss-5"><div><div class="inner">
+            <p style="color:var(--muted)">Sponsorluk paketlerimizi ve geçmiş iş birliklerimizi <a href="sponsorlar.html" style="color:var(--brand-ink);font-weight:600">Sponsorlar</a> sayfasında bulabilirsiniz. Kulüp e-posta adresimize yazdığınızda sponsorluk koordinatörümüz aynı hafta içinde sunum dosyasıyla dönüş yapıyor.</p>
+          </div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta-band" data-reveal>
+        <h2>Tanışma buluşmasına bekliyoruz</h2>
+        <p>Dönem içinde her Perşembe 17.00'de toplanıyoruz. Üye olman şart değil, önce gelip bakmak tamamen serbest.</p>
+        <div class="cta-band__actions">
+          <a class="btn btn--white btn--lg" data-kulup="basvuruFormu" href="index.html#iletisim" target="_blank" rel="noopener">Üyelik Başvurusu</a>
+          <a class="btn btn--outline btn--lg" href="etkinlikler.html">Etkinlik Takvimi</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__about">
+        <a class="brand" href="index.html">
+          <span class="brand__mark" data-logo="amblem"></span>
+          <span class="brand__text">
+            <span class="brand__name">KOUAI</span>
+            <span class="brand__sub">Yapay Zeka Kulübü</span>
+          </span>
+        </a>
+        <p>Kocaeli Üniversitesi Yapay Zeka Kulübü. Öğrencilerin yapay zekayı öğrendiği, ürettiği ve paylaştığı bağımsız bir öğrenci topluluğu.</p>
+        <div class="socials">
+          <a data-kulup="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+          <a data-kulup="linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C21.4 8.75 22 11 22 14v7h-4v-6.2c0-1.5-.03-3.4-2.1-3.4-2.1 0-2.4 1.6-2.4 3.3V21h-4V9Z"/></svg></a>
+          <a data-kulup="github" href="#" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.7.12 2.5.34 1.9-1.3 2.74-1.03 2.74-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></a>
+          <a data-kulup="x" href="#" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.2l-7 8 8.2 10h-6.4l-5-6.1L4.7 21H1.5l7.5-8.6L1.2 3h6.6l4.5 5.9L17.5 3Zm-1.1 16h1.8L7.7 4.8H5.8L16.4 19Z"/></svg></a>
+          <a data-kulup="youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2 28 28 0 0 0 1 12a28 28 0 0 0 .5 4.8 2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 23 12a28 28 0 0 0-.5-4.8ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="hakkimizda.html">Biz Kimiz</a></li>
+          <li><a href="etkinlikler.html">Etkinlikler</a></li>
+          <li><a href="arsiv.html">Arşiv</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kulüp</h4>
+        <ul>
+          <li><a href="ekip.html">Yönetim Kurulu</a></li>
+          <li><a href="sponsorlar.html">Sponsorlar</a></li>
+          <li><a href="index.html#projeler">Projeler</a></li>
+          <li><a href="index.html#iletisim">İletişim</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Katıl</h4>
+        <ul>
+          <li><a data-kulup="basvuruFormu" href="index.html#iletisim" target="_blank" rel="noopener">Üyelik başvurusu</a></li>
+          <li><a href="sponsorlar.html#sponsor-ol">Sponsor ol</a></li>
+          <li><a href="index.html#iletisim">Konuşmacı öner</a></li>
+          <li><a data-kulup="eposta" href="#">Bize yaz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="yil">2026</span> KOUAI — Kocaeli Üniversitesi Yapay Zeka Kulübü</span>
+      <span>Öğrenciler tarafından, öğrenciler için geliştirildi.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" type="button" aria-label="Sayfa başına dön">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/logo.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  // Sabit SSS akordeonu
+  document.querySelectorAll(".accordion .acc-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var acik = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!acik));
+      var panel = document.getElementById(btn.getAttribute("aria-controls"));
+      if (panel) panel.classList.toggle("is-open", !acik);
+    });
+  });
+</script>
+</body>
+</html>

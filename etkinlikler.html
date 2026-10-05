@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Etkinlikler — KOUAI</title>
+<meta name="description" content="Kocaeli Üniversitesi Yapay Zeka Kulübü'nün yaklaşan ve geçmiş etkinlikleri: eğitimler, atölyeler, seminerler ve yarışmalar.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/svg+xml" href="assets/img/kouai-mark.svg">
+<link rel="alternate icon" href="Images/ai_community_kou_logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("kouai-tema");
+      if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">İçeriğe geç</a>
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<header class="header">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="KOUAI ana sayfa">
+      <span class="brand__mark" data-logo="amblem"></span>
+      <span class="brand__text">
+        <span class="brand__name">KOUAI</span>
+        <span class="brand__sub">Yapay Zeka Kulübü</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Ana menü">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="hakkimizda.html">Biz Kimiz</a>
+      <a href="etkinlikler.html" aria-current="page">Etkinlikler</a>
+      <a href="arsiv.html">Arşiv</a>
+      <a href="ekip.html">Yönetim Kurulu</a>
+      <a href="sponsorlar.html">Sponsorlar</a>
+    </nav>
+    <div class="header__actions">
+      <button class="theme-toggle" type="button" aria-label="Koyu temaya geç">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+      </button>
+      <a class="btn btn--primary btn--sm" href="index.html#iletisim">Aramıza Katıl</a>
+      <button class="burger" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobil-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobil-menu" aria-label="Mobil menü">
+  <a href="index.html">Ana Sayfa</a>
+  <a href="hakkimizda.html">Biz Kimiz</a>
+  <a href="etkinlikler.html" aria-current="page">Etkinlikler</a>
+  <a href="arsiv.html">Arşiv</a>
+  <a href="ekip.html">Yönetim Kurulu</a>
+  <a href="sponsorlar.html">Sponsorlar</a>
+  <a class="btn btn--primary" href="index.html#iletisim">Aramıza Katıl</a>
+</nav>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Sayfa konumu">
+        <a href="index.html">Ana Sayfa</a> <span>/</span> <span>Etkinlikler</span>
+      </nav>
+      <span class="eyebrow" data-reveal>Takvim</span>
+      <h1 data-reveal style="--delay:70ms">Etkinlik <span class="grad-text">takvimimiz</span></h1>
+      <p data-reveal style="--delay:140ms">
+        Eğitim serileri, atölyeler, söyleşiler ve yarışmalar. Kayıt bağlantıları etkinlikten
+        yaklaşık iki hafta önce açılır ve Instagram hesabımızdan duyurulur.
+      </p>
+      <p style="margin-top:14px;font-family:var(--font-mono);font-size:.84rem;color:var(--faint)" id="etkinlik-sayac"></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="filters" id="etkinlik-filtreleri" role="group" aria-label="Etkinlik filtreleri" data-reveal>
+        <button class="filter-btn is-active" type="button" data-filtre="tumu" aria-pressed="true">Tümü</button>
+        <button class="filter-btn" type="button" data-filtre="yaklasan" aria-pressed="false">Yaklaşan</button>
+        <button class="filter-btn" type="button" data-filtre="gecmis" aria-pressed="false">Geçmiş</button>
+        <button class="filter-btn" type="button" data-filtre="egitim" aria-pressed="false">Eğitim</button>
+        <button class="filter-btn" type="button" data-filtre="atolye" aria-pressed="false">Atölye</button>
+        <button class="filter-btn" type="button" data-filtre="seminer" aria-pressed="false">Seminer</button>
+        <button class="filter-btn" type="button" data-filtre="yarisma" aria-pressed="false">Yarışma</button>
+        <button class="filter-btn" type="button" data-filtre="sosyal" aria-pressed="false">Sosyal</button>
+      </div>
+
+      <div class="grid grid-2" id="etkinlik-listesi"></div>
+      <p class="empty-state" id="etkinlik-bos" style="display:none;margin-top:24px">
+        Bu filtreye uyan etkinlik bulunamadı. Başka bir kategori deneyebilirsin.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-head section-head--center" data-reveal>
+        <span class="eyebrow">Etkinlik Türleri</span>
+        <h2>Ne tür programlar yapıyoruz?</h2>
+      </div>
+      <div class="grid grid-4">
+        <article class="card" data-reveal>
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="M6.5 10v5c0 1.6 2.5 3 5.5 3s5.5-1.4 5.5-3v-5"/></svg></div>
+          <h3>Eğitim serileri</h3>
+          <p>Haftalık ilerleyen, ödevli ve bitirme projeli uzun soluklu programlar.</p>
+        </article>
+        <article class="card" data-reveal style="--delay:70ms">
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5 21 10l-8.5 8.5a4.6 4.6 0 0 1-6.5-6.5L14.5 3.5Z"/></svg></div>
+          <h3>Atölyeler</h3>
+          <p>Tek oturumda tek konu. Bilgisayarınla gel, sonunda çalışan bir şeyle ayrıl.</p>
+        </article>
+        <article class="card" data-reveal style="--delay:140ms">
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3.5 3.5 0 0 0 3.5-3.5v-5a3.5 3.5 0 1 0-7 0v5A3.5 3.5 0 0 0 12 15Z"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18.5V22"/></svg></div>
+          <h3>Söyleşi ve paneller</h3>
+          <p>Sektörden ve akademiden konukların deneyimlerini aktardığı açık oturumlar.</p>
+        </article>
+        <article class="card" data-reveal style="--delay:210ms">
+          <div class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5h8v4a4 4 0 0 1-8 0v-4Z"/><path d="M8 5.5H5v1.5a3 3 0 0 0 3 3M16 5.5h3V7a3 3 0 0 1-3 3M9.5 20.5h5M12 12v8.5"/></svg></div>
+          <h3>Yarışmalar</h3>
+          <p>Datathon, hackathon ve TEKNOFEST hazırlık kampları; ödüllü ve takım bazlı.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta-band" data-reveal>
+        <h2>Etkinliklerden haberdar ol</h2>
+        <p>Duyuruları Instagram hesabımızdan yapıyoruz; kayıt bağlantıları ve son dakika değişiklikleri oradan geçiyor.</p>
+        <div class="cta-band__actions">
+          <a class="btn btn--white btn--lg" data-kulup="instagram" href="#" target="_blank" rel="noopener">Instagram'da Takip Et</a>
+          <a class="btn btn--outline btn--lg" href="index.html#iletisim">Konuşmacı Öner</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__about">
+        <a class="brand" href="index.html">
+          <span class="brand__mark" data-logo="amblem"></span>
+          <span class="brand__text">
+            <span class="brand__name">KOUAI</span>
+            <span class="brand__sub">Yapay Zeka Kulübü</span>
+          </span>
+        </a>
+        <p>Kocaeli Üniversitesi Yapay Zeka Kulübü. Öğrencilerin yapay zekayı öğrendiği, ürettiği ve paylaştığı bağımsız bir öğrenci topluluğu.</p>
+        <div class="socials">
+          <a data-kulup="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+          <a data-kulup="linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C21.4 8.75 22 11 22 14v7h-4v-6.2c0-1.5-.03-3.4-2.1-3.4-2.1 0-2.4 1.6-2.4 3.3V21h-4V9Z"/></svg></a>
+          <a data-kulup="github" href="#" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.5 9.5 0 0 1 12 6.8c.85 0 1.7.12 2.5.34 1.9-1.3 2.74-1.03 2.74-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></a>
+          <a data-kulup="x" href="#" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.2l-7 8 8.2 10h-6.4l-5-6.1L4.7 21H1.5l7.5-8.6L1.2 3h6.6l4.5 5.9L17.5 3Zm-1.1 16h1.8L7.7 4.8H5.8L16.4 19Z"/></svg></a>
+          <a data-kulup="youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2 28 28 0 0 0 1 12a28 28 0 0 0 .5 4.8 2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 23 12a28 28 0 0 0-.5-4.8ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="hakkimizda.html">Biz Kimiz</a></li>
+          <li><a href="etkinlikler.html">Etkinlikler</a></li>
+          <li><a href="arsiv.html">Arşiv</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kulüp</h4>
+        <ul>
+          <li><a href="ekip.html">Yönetim Kurulu</a></li>
+          <li><a href="sponsorlar.html">Sponsorlar</a></li>
+          <li><a href="index.html#projeler">Projeler</a></li>
+          <li><a href="index.html#iletisim">İletişim</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Katıl</h4>
+        <ul>
+          <li><a data-kulup="basvuruFormu" href="index.html#iletisim" target="_blank" rel="noopener">Üyelik başvurusu</a></li>
+          <li><a href="sponsorlar.html#sponsor-ol">Sponsor ol</a></li>
+          <li><a href="index.html#iletisim">Konuşmacı öner</a></li>
+          <li><a data-kulup="eposta" href="#">Bize yaz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="yil">2026</span> KOUAI — Kocaeli Üniversitesi Yapay Zeka Kulübü</span>
+      <span>Öğrenciler tarafından, öğrenciler için geliştirildi.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" type="button" aria-label="Sayfa başına dön">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/logo.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
