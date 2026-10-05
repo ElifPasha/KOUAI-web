@@ -18,13 +18,13 @@ const KULUP = {
   kurulus: 2021,
   eposta: "kouyapayzeka@gmail.com",
   instagram: "https://www.instagram.com/kouyapayzeka",
-  linkedin: "https://www.linkedin.com/company/kouyapayzeka",
+  linkedin: "https://www.linkedin.com/in/kouyapayzeka",
   x: "https://x.com/kouyapayzeka",
   github: "https://github.com/kouyapayzeka",
   youtube: "https://www.youtube.com/@kouyapayzeka",
   // Üyelik başvuru formu bağlantısı (Google Forms vb.).
   // Boş bırakırsan "Üye Ol" butonları sitedeki iletişim formuna gider.
-  basvuruFormu: "",
+  basvuruFormu: "https://oksistest.kocaeli.edu.tr",
   adres: "Kocaeli Üniversitesi Umuttepe Yerleşkesi, Teknoloji Fakültesi, 41001 İzmit / Kocaeli",
 
   // Ana sayfadaki büyük sayılar
@@ -245,8 +245,8 @@ const YONETIM = [
    logo   : "Images/sponsor-adi.png" verebilirsin; boşsa baş harf çıkar.
    --------------------------------------------------------------------- */
 const SPONSORLAR = [
-  { ad: "Teknopark Kocaeli", kademe: "ana",    yil: "2024 — 2026", aktif: true,  logo: "", site: "" },
-  { ad: "Ford Otosan",       kademe: "ana",    yil: "2025 — 2026", aktif: true,  logo: "", site: "" },
+  { ad: "Apptotech", kademe: "destek",    yil: "2025 — 2026", aktif: false,  logo: "Images/apptotech.jpg", site: "https://apptotech.com" },
+  { ad: "Quantic Technology",       kademe: "destek",    yil: "2025 — 2026", aktif: false,  logo: "Images/quantic.jpg", site: "https://www.quanticst.com" },
   { ad: "Arçelik Ar-Ge",     kademe: "altin",  yil: "2026",        aktif: true,  logo: "", site: "" },
   { ad: "Tüpraş",            kademe: "altin",  yil: "2026",        aktif: true,  logo: "", site: "" },
   { ad: "Kocaeli Büyükşehir Belediyesi", kademe: "gumus", yil: "2026", aktif: true, logo: "", site: "" },
@@ -262,7 +262,7 @@ const SPONSORLAR = [
   { ad: "Udemy Türkiye",     kademe: "destek", yil: "2022",        aktif: false, logo: "", site: "" },
   { ad: "Patika.dev",        kademe: "destek", yil: "2022",        aktif: false, logo: "", site: "" },
   { ad: "Techcareer.net",    kademe: "destek", yil: "2021",        aktif: false, logo: "", site: "" },
-  { ad: "Just English",      kademe: "destek", yil: "2021",        aktif: false, logo: "", site: "" }
+  { ad: "Just English",      kademe: "destek", yil: "2021",        aktif: true, logo: "", site: "" }
 ];
 
 /* ---------------------------------------------------------------------
