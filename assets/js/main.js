@@ -615,11 +615,16 @@
       const deger = KULUP[el.dataset.kulup];
       if (!deger) return;
       if (el.tagName === "A") {
-        el.setAttribute("href", el.dataset.kulup === "eposta" ? `mailto:${deger}` : deger);
-        if (!el.textContent.trim()) el.textContent = deger;
-      } else {
-        el.textContent = deger;
-      }
+  el.setAttribute("href", el.dataset.kulup === "eposta" ? `mailto:${deger}` : deger);
+  const etiket = el.getAttribute("aria-label");
+  if (el.children.length || etiket) {
+    if (etiket && !el.title) el.title = etiket;
+  } else if (!el.textContent.trim()) {
+    el.textContent = deger;
+  }
+} else {
+  el.textContent = deger;
+}
     });
 
     const yil = $("#yil");

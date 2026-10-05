@@ -1323,17 +1323,21 @@ p  { margin: 0; text-wrap: pretty; }
 .footer li a { color: var(--muted); font-size: .93rem; transition: color .2s var(--ease-soft); }
 .footer li a:hover { color: var(--brand-ink); }
 
-.socials { display: flex; gap: 10px; }
+.socials { display: flex; flex-wrap: wrap; gap: 10px; }
 .socials a {
+  flex: none;
   width: 38px; height: 38px;
   display: grid;
   place-items: center;
+  overflow: hidden;
   border-radius: 12px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--muted);
   transition: all .25s var(--ease-soft);
 }
+.socials a:focus-visible { outline: 3px solid var(--brand-ink); outline-offset: 3px; }
+
 .socials a:hover {
   background: var(--grad);
   border-color: transparent;
