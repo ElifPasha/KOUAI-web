@@ -191,7 +191,7 @@ const YONETIM = [
   },
   {
     ad: "Meryem Demir",
-    gorev: "Eğitim Koordinatörü",
+    gorev: "Proje/Arge Koordinatörü",
     bolum: "Bilişim Sistemleri Mühendisliği",
     foto: "Images/meryem.jpg",
     linkedin: "https://www.linkedin.com/in/meryem-demir-216014330/",
@@ -200,7 +200,7 @@ const YONETIM = [
   },
   {
     ad: "Talha Akbaş",
-    gorev: "Etkinlik Koordinatörü",
+    gorev: "Sponsorluk Koordinatörü",
     bolum: "Bilişim Sistemleri Mühendisliği",
     foto: "Images/talha.png",
     linkedin: "https://www.linkedin.com/in/talha-akba%C5%9F-2a34252ba/",
@@ -208,8 +208,8 @@ const YONETIM = [
     eposta: "",
   },
   {
-    ad: "Nisa Nur Çap",
-    gorev: "Sponsorluk Koordinatörü",
+    ad: "Nisanur Çap",
+    gorev: "Proje/Arge Koordinatörü",
     bolum: "Bilişim Sistemleri Mühendisliği",
     foto: "Images/nisa.jpg",
     linkedin: "https://www.linkedin.com/in/nisanur-%C3%A7ap-55017420b/",
@@ -217,8 +217,8 @@ const YONETIM = [
     eposta: "",
   },
   {
-    ad: "Sena Temizkan",
-    gorev: "Sponsorluk Koordinatörü",
+    ad: "Sena Melek Temizkan",
+    gorev: "Tasarım ve Medya Koordinatörü",
     bolum: "Bilgisayar Programcılığı",
     foto: "Images/sena.png",
     linkedin: "https://www.linkedin.com/in/sena-melek-temizkan-362236441/",
@@ -245,24 +245,13 @@ const YONETIM = [
    logo   : "Images/sponsor-adi.png" verebilirsin; boşsa baş harf çıkar.
    --------------------------------------------------------------------- */
 const SPONSORLAR = [
+  { ad: "Kocaeli Büyükşehir Belediyesi", kademe: "destek", yil: "2026", aktif: true, logo: "Images/belediye.jpg", site: "https://www.kocaeli.bel.tr" },
+  { ad: "Öğrenci Kariyeri",       kademe: "destek", yil: "2026",        aktif: true,  logo: "Images/ogrencikariyeri.jpg", site: "https://ogrencikariyeri.com" },
+  { ad: "Just English",      kademe: "destek", yil: "2026",        aktif: true, logo: "Images/justenglish.jpg", site: "https://www.justenglishtr.com" },
+
   { ad: "Apptotech", kademe: "destek",    yil: "2025 — 2026", aktif: false,  logo: "Images/apptotech.jpg", site: "https://apptotech.com" },
   { ad: "Quantic Technology",       kademe: "destek",    yil: "2025 — 2026", aktif: false,  logo: "Images/quantic.jpg", site: "https://www.quanticst.com" },
-  { ad: "Arçelik Ar-Ge",     kademe: "altin",  yil: "2026",        aktif: true,  logo: "", site: "" },
-  { ad: "Tüpraş",            kademe: "altin",  yil: "2026",        aktif: true,  logo: "", site: "" },
-  { ad: "Kocaeli Büyükşehir Belediyesi", kademe: "gumus", yil: "2026", aktif: true, logo: "", site: "" },
-  { ad: "BTK Akademi",       kademe: "gumus",  yil: "2026",        aktif: true,  logo: "", site: "" },
-  { ad: "Sabancı DX",        kademe: "destek", yil: "2026",        aktif: true,  logo: "", site: "" },
-  { ad: "Kariyer.net",       kademe: "destek", yil: "2026",        aktif: true,  logo: "", site: "" },
-
-  { ad: "Turkcell",          kademe: "ana",    yil: "2024",        aktif: false, logo: "", site: "" },
-  { ad: "Vodafone",          kademe: "altin",  yil: "2023",        aktif: false, logo: "", site: "" },
-  { ad: "Hepsiburada Tech",  kademe: "altin",  yil: "2023",        aktif: false, logo: "", site: "" },
-  { ad: "Getir",             kademe: "gumus",  yil: "2023",        aktif: false, logo: "", site: "" },
-  { ad: "Yemeksepeti",       kademe: "gumus",  yil: "2022",        aktif: false, logo: "", site: "" },
-  { ad: "Udemy Türkiye",     kademe: "destek", yil: "2022",        aktif: false, logo: "", site: "" },
-  { ad: "Patika.dev",        kademe: "destek", yil: "2022",        aktif: false, logo: "", site: "" },
-  { ad: "Techcareer.net",    kademe: "destek", yil: "2021",        aktif: false, logo: "", site: "" },
-  { ad: "Just English",      kademe: "destek", yil: "2021",        aktif: true, logo: "", site: "" }
+  { ad: "Fonangels",  kademe: "altin",  yil: "2025",        aktif: false, logo: "Images/fonangels.jpg", site: "https://fonangels.com" }
 ];
 
 /* ---------------------------------------------------------------------
