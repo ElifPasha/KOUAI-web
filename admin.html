@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Yönetim Paneli — KOUAI</title>
+<link rel="icon" type="image/svg+xml" href="assets/img/kouai-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("kouai-tema");
+      if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+<style>
+  body{min-height:100vh}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+  .bar .who{color:var(--muted);font-size:.88rem}
+  .wrap{padding:36px 0 80px}
+  .login{max-width:420px;margin:12vh auto 0}
+  .login h1{font-size:1.7rem;margin-bottom:6px}
+  .login p.sub{color:var(--muted);margin-bottom:22px;font-size:.95rem}
+  .msg{display:none;padding:12px 15px;border-radius:var(--radius-sm);font-size:.9rem;margin-top:14px;background:var(--brand-softer);border:1px solid var(--border-strong);color:var(--brand-ink)}
+  .msg.err{background:#FEF2F2;border-color:#FCA5A5;color:#991B1B}
+  [data-theme="dark"] .msg.err{background:rgba(220,38,38,.14);border-color:rgba(248,113,113,.4);color:#FCA5A5}
+  .msg.show{display:block}
+  .sums{display:flex;flex-wrap:wrap;gap:14px;margin:6px 0 26px}
+  .sum{padding:14px 20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+  .sum b{display:block;font-family:var(--font-display);font-size:1.6rem;line-height:1.1}
+  .sum span{color:var(--muted);font-size:.82rem}
+  .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+  .tools .field{flex:1 1 220px}
+  .tools select,.tools input{padding:11px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface-2);width:100%}
+  .row{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);margin-bottom:12px;overflow:hidden}
+  .row.yeni{border-left:4px solid var(--brand)}
+  .row summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) auto;gap:14px;align-items:center;padding:16px 20px}
+  .row summary::-webkit-details-marker{display:none}
+  .row summary strong{display:block}
+  .row summary small{color:var(--muted)}
+  .row .prev{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .when{color:var(--faint);font-size:.82rem;text-align:right}
+  .detail{padding:4px 20px 20px;border-top:1px solid var(--border)}
+  .detail pre{white-space:pre-wrap;word-break:break-word;font:inherit;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin:16px 0}
+  .detail textarea{width:100%;min-height:80px;padding:12px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface-2);resize:vertical}
+  .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .btn--danger{background:transparent;color:#DC2626;border-color:#FCA5A5}
+  .btn--danger:hover{background:#DC2626;color:#fff;border-color:#DC2626}
+  .empty{padding:48px 20px;text-align:center;color:var(--muted);border:1px dashed var(--border-strong);border-radius:var(--radius)}
+  .tabs{display:flex;gap:8px;margin-bottom:26px;border-bottom:1px solid var(--border)}
+  .tab{padding:12px 20px;background:none;border:0;border-bottom:3px solid transparent;font-weight:600;color:var(--muted);cursor:pointer;margin-bottom:-1px}
+  .tab.on{color:var(--brand-ink);border-bottom-color:var(--brand)}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .fgrid .full{grid-column:1/-1}
+  .fgrid select{padding:13px 15px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface-2)}
+  .fgrid small,.hint{color:var(--faint);font-size:.8rem}
+  .chk{display:flex;gap:10px;align-items:center;font-weight:500;font-size:.92rem}
+  .preview{max-width:320px;max-height:200px;object-fit:cover;border-radius:12px;border:1px solid var(--border);margin-top:8px}
+  .erow{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);margin-bottom:12px}
+  .ethumb{width:110px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
+  .ethumb.ph{display:grid;place-items:center;background:var(--surface-2);color:var(--faint);font-size:.75rem}
+  .emeta small{color:var(--muted);display:block}
+  .erow .acts{margin:0;justify-content:flex-end}
+  @media(max-width:760px){.fgrid{grid-template-columns:1fr}.erow{grid-template-columns:1fr}.erow .acts{justify-content:flex-start}}
+  [hidden]{display:none!important}
+  @media(max-width:640px){.row summary{grid-template-columns:1fr}.row .when{text-align:left}}
+</style>
+</head>
+<body>
+
+<!-- Giriş -->
+<main id="giris" class="container">
+  <form class="form login" id="giris-formu">
+    <div>
+      <h1>Yönetim paneli</h1>
+      <p class="sub">Başvuruları görmek için yönetici hesabınla giriş yap.</p>
+    </div>
+    <div class="field"><label for="g-mail">E-posta</label><input id="g-mail" type="email" required autocomplete="username"></div>
+    <div class="field"><label for="g-sifre">Şifre</label><input id="g-sifre" type="password" required autocomplete="current-password"></div>
+    <button class="btn btn--primary" type="submit" id="g-btn">Giriş yap</button>
+    <div class="msg" id="g-msg" role="alert"></div>
+  </form>
+</main>
+
+<!-- Panel -->
+<div id="panel" hidden>
+  <div class="container bar">
+    <a class="brand" href="index.html"><span class="brand__mark" style="width:44px" aria-hidden="true"></span><span class="brand__text"><span class="brand__name">KOUAI</span><span class="brand__sub">Yönetim paneli</span></span></a>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span class="who" id="kim"></span>
+      <button class="btn btn--ghost btn--sm" type="button" id="cikis">Çıkış yap</button>
+    </div>
+  </div>
+
+  <main class="container wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab on" type="button" role="tab" aria-selected="true" data-sekme="basvuru">Başvurular</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="etkinlik">Etkinlikler</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="sponsor">Sponsorlar</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="yonetim">Yönetim Kurulu</button>
+    </div>
+    <div id="sekme-basvuru">
+    <div class="sums" id="ozet"></div>
+
+    <div class="tools">
+      <div class="field"><input id="ara" type="search" placeholder="Ad, e-posta veya mesajda ara" aria-label="Ara"></div>
+      <div class="field" style="flex:0 1 170px"><select id="f-durum" aria-label="Duruma göre filtrele">
+        <option value="">Tüm durumlar</option><option value="yeni">Yeni</option><option value="okundu">Okundu</option><option value="arsiv">Arşiv</option>
+      </select></div>
+      <div class="field" style="flex:0 1 220px"><select id="f-konu" aria-label="Konuya göre filtrele"><option value="">Tüm konular</option></select></div>
+      <button class="btn btn--soft btn--sm" type="button" id="yenile">Yenile</button>
+      <button class="btn btn--soft btn--sm" type="button" id="csv">CSV indir</button>
+    </div>
+
+    <div class="msg" id="p-msg" role="alert"></div>
+    <div id="liste"></div>
+    </div>
+
+    <div id="sekme-etkinlik" hidden>
+      <div class="tools"><button class="btn btn--primary btn--sm" type="button" id="e-yeni">Yeni etkinlik ekle</button></div>
+      <div class="msg" id="e-msg" role="alert"></div>
+
+      <form class="form" id="e-form" hidden style="margin-bottom:26px">
+        <h2 id="e-baslik-ust" style="font-size:1.3rem">Yeni etkinlik</h2>
+        <div class="fgrid">
+          <div class="field full"><label for="ef-baslik">Başlık</label><input id="ef-baslik" required maxlength="160" placeholder="Örn. Prompt Mühendisliği Atölyesi"></div>
+          <div class="field"><label for="ef-tarih">Tarih</label><input id="ef-tarih" type="date" required></div>
+          <div class="field"><label for="ef-saat">Saat</label><input id="ef-saat" maxlength="40" placeholder="18:00 - 20:00"></div>
+          <div class="field"><label for="ef-yer">Yer</label><input id="ef-yer" maxlength="160" placeholder="Mühendislik Fakültesi B-204 veya Zoom"></div>
+          <div class="field"><label for="ef-tur">Tür</label><select id="ef-tur">
+            <option value="egitim">Eğitim</option><option value="seminer" selected>Seminer</option><option value="atolye">Atölye</option><option value="yarisma">Yarışma</option><option value="sosyal">Sosyal</option></select></div>
+          <div class="field full"><label for="ef-ozet">Açıklama</label><textarea id="ef-ozet" maxlength="1200" placeholder="Etkinlik kısaca nedir, kimler için?"></textarea></div>
+          <div class="field"><label for="ef-etiket">Etiketler</label><input id="ef-etiket" placeholder="PyTorch, Ücretsiz, Online"><small>Virgülle ayır, en fazla 8 tane.</small></div>
+          <div class="field"><label for="ef-link">Kayıt / detay bağlantısı</label><input id="ef-link" type="url" placeholder="https://..."><small>İsteğe bağlı.</small></div>
+          <div class="field full">
+            <label for="ef-gorsel">Görsel</label>
+            <input id="ef-gorsel" type="file" accept="image/jpeg,image/png,image/webp">
+            <small>JPG, PNG veya WebP. En fazla 3 MB. Yatay (geniş) görseller daha iyi görünür.</small>
+            <img class="preview" id="ef-onizleme" alt="Görsel önizlemesi" hidden>
+            <label class="chk" id="ef-kaldir-kap" hidden><input type="checkbox" id="ef-gorsel-kaldir"> Mevcut görseli kaldır</label>
+          </div>
+          <label class="chk"><input type="checkbox" id="ef-yayinda" checked> Sitede yayında</label>
+          <label class="chk"><input type="checkbox" id="ef-one"> Ana sayfada öne çıkar</label>
+        </div>
+        <div class="acts">
+          <button class="btn btn--primary btn--sm" type="submit" id="ef-kaydet">Kaydet</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="ef-iptal">Vazgeç</button>
+        </div>
+      </form>
+
+      <div id="e-liste"></div>
+    </div>
+
+    <div id="sekme-sponsor" hidden></div>
+    <div id="sekme-yonetim" hidden></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/logo.js"></script>
+<script src="assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (s) { return document.querySelector(s); };
+  var cfg = window.KOUAI_SUPABASE || {};
+
+  // Logo (varsa)
+  try {
+    var m = $(".brand__mark");
+    if (m && window.KOUAI_LOGO) m.innerHTML = '<svg viewBox="0 0 130.38 74" style="width:100%;height:auto;color:var(--brand-ink)" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="' + KOUAI_LOGO.amblem.d + '"/></svg>';
+  } catch (e) {}
+
+  function bildir(el, metin, hata) {
+    el.textContent = metin || "";
+    el.classList.toggle("err", !!hata);
+    el.classList.toggle("show", !!metin);
+  }
+
+  if (!cfg.url || /PROJE-KODUN/.test(cfg.url) || !window.supabase) {
+    bildir($("#g-msg"), "Supabase ayarları yapılmamış. assets/js/supabase-config.js dosyasını doldur.", true);
+    $("#g-btn").disabled = true;
+    return;
+  }
+
+  // Oturum yalnızca sekme açıkken tutulur (paylaşılan bilgisayarlara karşı)
+  var db = window.supabase.createClient(cfg.url, cfg.anonKey, {
+    auth: { persistSession: true, storage: window.sessionStorage, autoRefreshToken: true }
+  });
+
+  var kayitlar = [];
+  var DURUM = { yeni: "Yeni", okundu: "Okundu", arsiv: "Arşiv" };
+
+  /* ---------- Oturum ---------- */
+  async function adminMi(user) {
+    var r = await db.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
+    return !r.error && !!r.data;
+  }
+
+  async function oturumuKur(session) {
+    if (!session) { goster(false); return; }
+    if (!(await adminMi(session.user))) {
+      await db.auth.signOut();
+      bildir($("#g-msg"), "Bu hesap yönetici olarak yetkilendirilmemiş.", true);
+      goster(false);
+      return;
+    }
+    $("#kim").textContent = session.user.email;
+    goster(true);
+    yukle();
+  }
+
+  function goster(panel) {
+    $("#giris").hidden = panel;
+    $("#panel").hidden = !panel;
+  }
+
+  $("#giris-formu").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var btn = $("#g-btn"); btn.disabled = true; bildir($("#g-msg"), "");
+    var r = await db.auth.signInWithPassword({ email: $("#g-mail").value.trim(), password: $("#g-sifre").value });
+    btn.disabled = false;
+    $("#g-sifre").value = "";
+    if (r.error) { bildir($("#g-msg"), "Giriş başarısız: " + r.error.message, true); return; }
+    oturumuKur(r.data.session);
+  });
+
+  $("#cikis").addEventListener("click", async function () {
+    await db.auth.signOut();
+    kayitlar = []; $("#liste").textContent = "";
+    goster(false);
+  });
+
+  /* ---------- Veri ---------- */
+  async function yukle() {
+    bildir($("#p-msg"), "");
+    var r = await db.from("basvurular").select("*").order("created_at", { ascending: false }).limit(1000);
+    if (r.error) { bildir($("#p-msg"), "Başvurular yüklenemedi: " + r.error.message, true); return; }
+    kayitlar = r.data || [];
+    konuSecenekleri();
+    ciz();
+  }
+
+  function konuSecenekleri() {
+    var sel = $("#f-konu"), mevcut = sel.value;
+    var konular = Array.from(new Set(kayitlar.map(function (k) { return k.konu; }))).sort();
+    sel.length = 1;
+    konular.forEach(function (k) { var o = document.createElement("option"); o.value = k; o.textContent = k; sel.appendChild(o); });
+    sel.value = konular.indexOf(mevcut) > -1 ? mevcut : "";
+  }
+
+  function filtreli() {
+    var q = $("#ara").value.trim().toLocaleLowerCase("tr-TR");
+    var d = $("#f-durum").value, k = $("#f-konu").value;
+    return kayitlar.filter(function (x) {
+      if (d && x.durum !== d) return false;
+      if (k && x.konu !== k) return false;
+      if (!q) return true;
+      return (x.ad + " " + x.eposta + " " + x.mesaj).toLocaleLowerCase("tr-TR").indexOf(q) > -1;
+    });
+  }
+
+  function tarih(s) {
+    return new Date(s).toLocaleString("tr-TR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  }
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text; // textContent: kullanıcı girdisi HTML olarak yorumlanmaz
+    return n;
+  }
+
+  function ciz() {
+    var say = { yeni: 0, okundu: 0, arsiv: 0 };
+    kayitlar.forEach(function (k) { say[k.durum]++; });
+    var oz = $("#ozet"); oz.textContent = "";
+    [["Toplam", kayitlar.length], ["Yeni", say.yeni], ["Okundu", say.okundu], ["Arşiv", say.arsiv]].forEach(function (a) {
+      var s = el("div", "sum"); s.appendChild(el("b", "", a[1])); s.appendChild(el("span", "", a[0])); oz.appendChild(s);
+    });
+
+    var liste = $("#liste"); liste.textContent = "";
+    var veri = filtreli();
+    if (!veri.length) {
+      liste.appendChild(el("div", "empty", kayitlar.length ? "Filtreye uyan başvuru yok. Filtreleri temizleyip tekrar dene." : "Henüz başvuru gelmedi. Siteden gelen mesajlar burada görünecek."));
+      return;
+    }
+    veri.forEach(function (k) { liste.appendChild(satir(k)); });
+  }
+
+  function satir(k) {
+    var d = el("details", "row " + k.durum);
+    d.dataset.id = k.id;
+    var s = el("summary");
+    var a = el("div"); a.appendChild(el("strong", "", k.ad)); a.appendChild(el("small", "", k.eposta));
+    var b = el("div", "prev", k.konu + " — " + k.mesaj.replace(/\s+/g, " "));
+    var c = el("div", "when", tarih(k.created_at) + " · " + DURUM[k.durum]);
+    s.append(a, b, c); d.appendChild(s);
+
+    var det = el("div", "detail");
+    det.appendChild(el("pre", "", k.mesaj));
+    var not = el("textarea"); not.placeholder = "Yönetici notu (yalnızca panelde görünür)"; not.value = k.notlar || ""; not.maxLength = 2000;
+    not.setAttribute("aria-label", "Yönetici notu");
+    det.appendChild(not);
+
+    var acts = el("div", "acts");
+    function btn(text, cls, fn) { var x = el("button", "btn btn--sm " + cls, text); x.type = "button"; x.addEventListener("click", fn); acts.appendChild(x); return x; }
+    btn("Notu kaydet", "btn--soft", function () { guncelle(k, { notlar: not.value.trim() || null }, "Not kaydedildi."); });
+    if (k.durum !== "okundu") btn("Okundu işaretle", "btn--soft", function () { guncelle(k, { durum: "okundu" }, "Okundu olarak işaretlendi."); });
+    if (k.durum !== "yeni") btn("Yeni olarak işaretle", "btn--ghost", function () { guncelle(k, { durum: "yeni" }, "Yeni olarak işaretlendi."); });
+    if (k.durum !== "arsiv") btn("Arşivle", "btn--ghost", function () { guncelle(k, { durum: "arsiv" }, "Arşive taşındı."); });
+    var yanit = el("a", "btn btn--sm btn--ghost", "E-posta ile yanıtla");
+    yanit.href = "mailto:" + encodeURIComponent(k.eposta).replace(/%40/g, "@") + "?subject=" + encodeURIComponent("Re: " + k.konu);
+    acts.appendChild(yanit);
+    btn("Sil", "btn--danger", function () { sil(k); });
+    det.appendChild(acts); d.appendChild(det);
+
+    // Açılınca "yeni" ise otomatik okundu yap
+    d.addEventListener("toggle", function () {
+      if (d.open && k.durum === "yeni") guncelle(k, { durum: "okundu" }, null, true);
+    });
+    return d;
+  }
+
+  async function guncelle(k, alanlar, mesaj, sessiz) {
+    var r = await db.from("basvurular").update(alanlar).eq("id", k.id).select().single();
+    if (r.error) { bildir($("#p-msg"), "Güncellenemedi: " + r.error.message, true); return; }
+    Object.assign(k, r.data);
+    if (sessiz) { // yeniden çiz, ardından aynı satırı açık bırak
+      ciz();
+      var acilacak = document.querySelector('#liste details[data-id="' + k.id + '"]');
+      if (acilacak) acilacak.open = true;
+      return;
+    }
+    bildir($("#p-msg"), mesaj);
+    ciz();
+  }
+
+  async function sil(k) {
+    if (!confirm(k.ad + " kişisinin başvurusu kalıcı olarak silinecek. Emin misin?")) return;
+    var r = await db.from("basvurular").delete().eq("id", k.id);
+    if (r.error) { bildir($("#p-msg"), "Silinemedi: " + r.error.message, true); return; }
+    kayitlar = kayitlar.filter(function (x) { return x.id !== k.id; });
+    bildir($("#p-msg"), "Başvuru silindi.");
+    konuSecenekleri(); ciz();
+  }
+
+  /* ---------- CSV ---------- */
+  function csvHucre(v) {
+    var s = String(v == null ? "" : v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; // Excel formül enjeksiyonuna karşı
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  $("#csv").addEventListener("click", function () {
+    var veri = filtreli();
+    if (!veri.length) { bildir($("#p-msg"), "Dışa aktarılacak kayıt yok.", true); return; }
+    var satirlar = [["Tarih", "Ad Soyad", "E-posta", "Konu", "Durum", "Mesaj", "Not"]].concat(veri.map(function (k) {
+      return [tarih(k.created_at), k.ad, k.eposta, k.konu, DURUM[k.durum], k.mesaj, k.notlar || ""];
+    }));
+    var csv = "\uFEFF" + satirlar.map(function (r) { return r.map(csvHucre).join(";"); }).join("\r\n");
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    a.download = "kouai-basvurular-" + new Date().toISOString().slice(0, 10) + ".csv";
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+
+  ["#ara", "#f-durum", "#f-konu"].forEach(function (s) { $(s).addEventListener("input", ciz); });
+  $("#yenile").addEventListener("click", yukle);
+
+  /* ================= Sekmeler ================= */
+  document.querySelectorAll(".tab").forEach(function (t) {
+    t.addEventListener("click", function () { sekme(t.dataset.sekme); });
+  });
+  function sekme(ad) {
+    document.querySelectorAll(".tab").forEach(function (t) {
+      var a = t.dataset.sekme === ad;
+      t.classList.toggle("on", a); t.setAttribute("aria-selected", String(a));
+    });
+    ["basvuru", "etkinlik", "sponsor", "yonetim"].forEach(function (s) { $("#sekme-" + s).hidden = s !== ad; });
+    if (ad === "etkinlik" && !etkinlikYuklendi) etkinlikYukle();
+    if (MODULLER[ad]) MODULLER[ad].yukle();
+  }
+
+  /* ================= Etkinlikler ================= */
+  var etkinlikler = [], duzenlenen = null, etkinlikYuklendi = false, BUCKET = "gorseller";
+  var TURLER = { egitim: "Eğitim", seminer: "Seminer", atolye: "Atölye", yarisma: "Yarışma", sosyal: "Sosyal" };
+  var UZANTI = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
+
+  async function etkinlikYukle() {
+    var r = await db.from("etkinlikler").select("*").order("tarih", { ascending: false });
+    if (r.error) { bildir($("#e-msg"), "Etkinlikler yüklenemedi: " + r.error.message + " (icerik.sql çalıştırıldı mı?)", true); return; }
+    etkinlikYuklendi = true; etkinlikler = r.data || []; etkinlikCiz();
+  }
+
+  function tarihYaz(t) {
+    return new Date(t + "T00:00:00").toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+  }
+
+  function etkinlikCiz() {
+    var l = $("#e-liste"); l.textContent = "";
+    if (!etkinlikler.length) { l.appendChild(el("div", "empty", "Henüz etkinlik yok. “Yeni etkinlik ekle” ile ilkini oluştur.")); return; }
+    etkinlikler.forEach(function (e) {
+      var s = el("div", "erow");
+      if (e.gorsel) { var im = el("img", "ethumb"); im.src = e.gorsel; im.alt = ""; s.appendChild(im); }
+      else s.appendChild(el("div", "ethumb ph", "Görsel yok"));
+      var m = el("div", "emeta");
+      m.appendChild(el("strong", "", e.baslik));
+      m.appendChild(el("small", "", tarihYaz(e.tarih) + " · " + (TURLER[e.tur] || e.tur) + (e.yer ? " · " + e.yer : "")));
+      var tg = el("div", "tag-list"); tg.style.marginTop = "8px";
+      tg.appendChild(el("span", "tag", e.yayinda ? "Yayında" : "Taslak"));
+      if (e.one) tg.appendChild(el("span", "tag", "Ana sayfada öne çıkan"));
+      m.appendChild(tg); s.appendChild(m);
+
+      var a = el("div", "acts");
+      function btn(t, c, fn) { var x = el("button", "btn btn--sm " + c, t); x.type = "button"; x.addEventListener("click", fn); a.appendChild(x); }
+      btn("Düzenle", "btn--soft", function () { formAc(e); });
+      btn(e.yayinda ? "Yayından kaldır" : "Yayınla", "btn--ghost", async function () {
+        var r = await db.from("etkinlikler").update({ yayinda: !e.yayinda }).eq("id", e.id);
+        if (r.error) { bildir($("#e-msg"), "Güncellenemedi: " + r.error.message, true); return; }
+        etkinlikYukle();
+      });
+      btn("Sil", "btn--danger", async function () {
+        if (!confirm("“" + e.baslik + "” kalıcı olarak silinecek. Emin misin?")) return;
+        var r = await db.from("etkinlikler").delete().eq("id", e.id);
+        if (r.error) { bildir($("#e-msg"), "Silinemedi: " + r.error.message, true); return; }
+        if (e.gorsel) gorselSil(e.gorsel);
+        bildir($("#e-msg"), "Etkinlik silindi."); etkinlikYukle();
+      });
+      s.appendChild(a); l.appendChild(s);
+    });
+  }
+
+  function gorselSil(url) {
+    var i = url.indexOf("/" + BUCKET + "/");
+    if (i < 0) return;
+    db.storage.from(BUCKET).remove([decodeURIComponent(url.slice(i + BUCKET.length + 2).split("?")[0])]);
+  }
+
+  function onizle(src) {
+    var im = $("#ef-onizleme");
+    im.hidden = !src; if (src) im.src = src;
+  }
+
+  function formAc(e) {
+    duzenlenen = e || null;
+    var f = $("#e-form"); f.reset(); bildir($("#e-msg"), "");
+    $("#e-baslik-ust").textContent = e ? "Etkinliği düzenle" : "Yeni etkinlik";
+    $("#ef-baslik").value = e ? e.baslik : "";
+    $("#ef-tarih").value = e ? e.tarih : "";
+    $("#ef-saat").value = e && e.saat || "";
+    $("#ef-yer").value = e && e.yer || "";
+    $("#ef-tur").value = e ? e.tur : "seminer";
+    $("#ef-ozet").value = e ? e.ozet : "";
+    $("#ef-etiket").value = e ? (e.etiketler || []).join(", ") : "";
+    $("#ef-link").value = e && e.link || "";
+    $("#ef-yayinda").checked = e ? e.yayinda : true;
+    $("#ef-one").checked = e ? e.one : false;
+    $("#ef-kaldir-kap").hidden = !(e && e.gorsel);
+    onizle(e && e.gorsel || "");
+    f.hidden = false; f.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  $("#e-yeni").addEventListener("click", function () { formAc(null); });
+  $("#ef-iptal").addEventListener("click", function () { $("#e-form").hidden = true; });
+  $("#ef-gorsel").addEventListener("change", function () {
+    var d = this.files[0];
+    onizle(d ? URL.createObjectURL(d) : (duzenlenen && duzenlenen.gorsel) || "");
+  });
+
+  $("#e-form").addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    var btn = $("#ef-kaydet"); btn.disabled = true; bildir($("#e-msg"), "");
+    try {
+      var link = $("#ef-link").value.trim();
+      if (link && !/^https?:\/\//i.test(link)) throw new Error("Bağlantı http:// veya https:// ile başlamalı.");
+      var dosya = $("#ef-gorsel").files[0];
+      var eski = (duzenlenen && duzenlenen.gorsel) || null, gorsel = eski;
+      if (dosya) {
+        if (!UZANTI[dosya.type]) throw new Error("Görsel JPG, PNG veya WebP olmalı.");
+        if (dosya.size > 3 * 1024 * 1024) throw new Error("Görsel 3 MB'tan küçük olmalı.");
+        var yol = "etkinlik/" + crypto.randomUUID() + "." + UZANTI[dosya.type];
+        var u = await db.storage.from(BUCKET).upload(yol, dosya, { contentType: dosya.type, cacheControl: "31536000" });
+        if (u.error) throw new Error("Görsel yüklenemedi: " + u.error.message);
+        gorsel = db.storage.from(BUCKET).getPublicUrl(yol).data.publicUrl;
+      } else if ($("#ef-gorsel-kaldir").checked) gorsel = null;
+
+      var kayit = {
+        baslik: $("#ef-baslik").value.trim(),
+        tarih: $("#ef-tarih").value,
+        saat: $("#ef-saat").value.trim() || null,
+        yer: $("#ef-yer").value.trim() || null,
+        tur: $("#ef-tur").value,
+        ozet: $("#ef-ozet").value.trim(),
+        etiketler: $("#ef-etiket").value.split(",").map(function (x) { return x.trim(); }).filter(Boolean).slice(0, 8),
+        link: link || null, gorsel: gorsel,
+        yayinda: $("#ef-yayinda").checked, one: $("#ef-one").checked
+      };
+      var r = duzenlenen
+        ? await db.from("etkinlikler").update(kayit).eq("id", duzenlenen.id)
+        : await db.from("etkinlikler").insert(kayit);
+      if (r.error) throw new Error(r.error.message);
+      if (eski && eski !== gorsel) gorselSil(eski);
+      $("#e-form").hidden = true;
+      bildir($("#e-msg"), "Etkinlik kaydedildi. Sitede sayfa yenilenince görünür.");
+      await etkinlikYukle();
+    } catch (err) { bildir($("#e-msg"), err.message, true); }
+    btn.disabled = false;
+  });
+
+  /* ============ Sponsorlar & Yönetim kurulu (ortak yönetici) ============ */
+  var MODULLER = {};
+
+  async function gorselYukle(dosya, klasor) {
+    if (!UZANTI[dosya.type]) throw new Error("Görsel JPG, PNG veya WebP olmalı.");
+    if (dosya.size > 3 * 1024 * 1024) throw new Error("Görsel 3 MB'tan küçük olmalı.");
+    var yol = klasor + "/" + crypto.randomUUID() + "." + UZANTI[dosya.type];
+    var u = await db.storage.from(BUCKET).upload(yol, dosya, { contentType: dosya.type, cacheControl: "31536000" });
+    if (u.error) throw new Error("Görsel yüklenemedi: " + u.error.message);
+    return db.storage.from(BUCKET).getPublicUrl(yol).data.publicUrl;
+  }
+
+  function modul(c, kap) {
+    var rows = [], duz = null, yuklu = false, girdi = {};
+    var tools = el("div", "tools"), yeni = el("button", "btn btn--primary btn--sm", "Yeni " + c.ad + " ekle");
+    yeni.type = "button"; tools.appendChild(yeni);
+    var msg = el("div", "msg"); msg.setAttribute("role", "alert");
+    var form = el("form", "form"); form.hidden = true; form.style.marginBottom = "26px";
+    var baslik = el("h2"); baslik.style.fontSize = "1.3rem";
+    var grid = el("div", "fgrid"), liste = el("div");
+    form.append(baslik, grid); kap.append(tools, msg, form, liste);
+
+    c.alanlar.forEach(function (a) {
+      var id = "m-" + c.tablo + "-" + a.k, f = el("div", "field" + (a.full ? " full" : ""));
+      var lb = el("label", "", a.t); lb.htmlFor = id;
+      var g;
+      if (a.sec) {
+        g = el("select");
+        Object.keys(a.sec).forEach(function (k) { var o = el("option", "", a.sec[k]); o.value = k; g.appendChild(o); });
+      } else if (a.tip === "metin") { g = el("textarea"); if (a.ph) g.placeholder = a.ph; if (a.max) g.maxLength = a.max;
+      } else { g = el("input"); g.type = a.tip || "text"; if (a.ph) g.placeholder = a.ph; }
+      g.id = id; if (a.req) g.required = true;
+      girdi[a.k] = g; f.append(lb, g); grid.appendChild(f);
+    });
+
+    var gf = el("div", "field full"), gl = el("label", "", c.gorselEtiket);
+    var gi = el("input"); gi.type = "file"; gi.id = "m-" + c.tablo + "-g"; gl.htmlFor = gi.id;
+    gi.accept = "image/jpeg,image/png,image/webp";
+    var on = el("img", "preview"); on.hidden = true; on.alt = "Önizleme";
+    var kk = el("label", "chk"), kc = el("input"); kc.type = "checkbox"; kk.hidden = true;
+    kk.append(kc, document.createTextNode(" Mevcut görseli kaldır"));
+    gf.append(gl, gi, el("small", "", "JPG, PNG veya WebP, en fazla 3 MB."), on, kk);
+    if (c.gorselAlan) grid.appendChild(gf);
+    gi.addEventListener("change", function () {
+      var d = gi.files[0], eski = duz && duz[c.gorselAlan];
+      on.hidden = !(d || eski); on.src = d ? URL.createObjectURL(d) : (eski || "");
+    });
+
+    c.kutular.forEach(function (b) {
+      var l = el("label", "chk"), i = el("input"); i.type = "checkbox"; girdi[b.k] = i;
+      l.append(i, document.createTextNode(" " + b.t)); grid.appendChild(l);
+    });
+
+    var acts = el("div", "acts");
+    var kaydet = el("button", "btn btn--primary btn--sm", "Kaydet"); kaydet.type = "submit";
+    var iptal = el("button", "btn btn--ghost btn--sm", "Vazgeç"); iptal.type = "button";
+    acts.append(kaydet, iptal); form.appendChild(acts);
+    iptal.addEventListener("click", function () { form.hidden = true; });
+    yeni.addEventListener("click", function () { formAc(null); });
+
+    function formAc(r) {
+      duz = r || null; form.reset(); bildir(msg, "");
+      baslik.textContent = r ? "Düzenle: " + c.baslik(r) : "Yeni " + c.ad;
+      c.alanlar.forEach(function (a) {
+        var v = r ? (a.goster ? a.goster(r[a.k]) : r[a.k]) : (a.v != null ? a.v : "");
+        girdi[a.k].value = v == null ? "" : v;
+      });
+      c.kutular.forEach(function (b) { girdi[b.k].checked = r ? r[b.k] : b.v; });
+      var g = r && r[c.gorselAlan];
+      kk.hidden = !g; on.hidden = !g; if (g) on.src = g;
+      form.hidden = false; form.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    form.addEventListener("submit", async function (ev) {
+      ev.preventDefault(); kaydet.disabled = true; bildir(msg, "");
+      try {
+        var k = {};
+        c.alanlar.forEach(function (a) {
+          var v = girdi[a.k].value.trim();
+          if (a.tip === "url" && v && !/^https?:\/\//i.test(v)) throw new Error(a.t + " http:// veya https:// ile başlamalı.");
+          k[a.k] = a.tip === "number" ? (parseInt(v, 10) || 0) : (v || null);
+        });
+        c.kutular.forEach(function (b) { k[b.k] = girdi[b.k].checked; });
+        var eski = (duz && duz[c.gorselAlan]) || null, g = eski;
+        if (gi.files[0]) g = await gorselYukle(gi.files[0], c.klasor);
+        else if (kc.checked) g = null;
+        k[c.gorselAlan] = g;
+        var r = duz ? await db.from(c.tablo).update(k).eq("id", duz.id) : await db.from(c.tablo).insert(k);
+        if (r.error) throw new Error(r.error.message);
+        if (eski && eski !== g) gorselSil(eski);
+        form.hidden = true; bildir(msg, "Kaydedildi. Sitede sayfa yenilenince görünür.");
+        await yukle();
+      } catch (e) { bildir(msg, e.message, true); }
+      kaydet.disabled = false;
+    });
+
+    async function yukle() {
+      var q = db.from(c.tablo).select("*");
+      c.sirala.forEach(function (s) { q = q.order(s, { ascending: true }); });
+      var r = await q;
+      if (r.error) { bildir(msg, "Yüklenemedi: " + r.error.message + " (sponsor_yonetim.sql çalıştırıldı mı?)", true); return; }
+      yuklu = true; rows = r.data || []; ciz();
+    }
+
+    function ciz() {
+      liste.textContent = "";
+      if (!rows.length) {
+        var bos = el("div", "empty", "Henüz kayıt yok. “Yeni " + c.ad + " ekle” ile başla.");
+        var kaynak = c.kaynak();
+        if (kaynak.length) {
+          var ib = el("button", "btn btn--soft btn--sm", "data.js'teki " + kaynak.length + " kaydı içe aktar");
+          ib.type = "button"; ib.style.cssText = "display:block;margin:16px auto 0";
+          ib.addEventListener("click", async function () {
+            ib.disabled = true;
+            var r = await db.from(c.tablo).insert(kaynak);
+            if (r.error) { bildir(msg, "İçe aktarılamadı: " + r.error.message, true); ib.disabled = false; return; }
+            bildir(msg, "Kayıtlar içe aktarıldı."); yukle();
+          });
+          bos.appendChild(ib);
+        }
+        liste.appendChild(bos); return;
+      }
+      rows.forEach(function (r) {
+        var s = el("div", "erow"), src = r[c.gorselAlan];
+        if (src) { var im = el("img", "ethumb"); im.src = src; im.alt = ""; im.style.objectFit = c.sigdir; s.appendChild(im); }
+        else s.appendChild(el("div", "ethumb ph", "Görsel yok"));
+        var m = el("div", "emeta"); m.appendChild(el("strong", "", c.baslik(r))); m.appendChild(el("small", "", c.alt(r)));
+        var tg = el("div", "tag-list"); tg.style.marginTop = "8px";
+        c.rozet(r).forEach(function (t) { tg.appendChild(el("span", "tag", t)); });
+        m.appendChild(tg); s.appendChild(m);
+        var a = el("div", "acts");
+        function btn(t, cl, fn) { var x = el("button", "btn btn--sm " + cl, t); x.type = "button"; x.addEventListener("click", fn); a.appendChild(x); }
+        btn("Düzenle", "btn--soft", function () { formAc(r); });
+        btn(r.yayinda ? "Gizle" : "Yayınla", "btn--ghost", async function () {
+          var x = await db.from(c.tablo).update({ yayinda: !r.yayinda }).eq("id", r.id);
+          if (x.error) { bildir(msg, "Güncellenemedi: " + x.error.message, true); return; }
+          yukle();
+        });
+        btn("Sil", "btn--danger", async function () {
+          if (!confirm("“" + c.baslik(r) + "” kalıcı olarak silinecek. Emin misin?")) return;
+          var x = await db.from(c.tablo).delete().eq("id", r.id);
+          if (x.error) { bildir(msg, "Silinemedi: " + x.error.message, true); return; }
+          if (src) gorselSil(src);
+          bildir(msg, "Silindi."); yukle();
+        });
+        s.appendChild(a); liste.appendChild(s);
+      });
+    }
+    return { yukle: function () { if (!yuklu) yukle(); } };
+  }
+
+  var KADEME = { ana: "Ana sponsor", altin: "Altın", gumus: "Gümüş", destek: "Destekçi" };
+
+  MODULLER.sponsor = modul({
+    tablo: "sponsorlar", klasor: "sponsor", ad: "sponsor", gorselAlan: "logo", gorselEtiket: "Logo", sigdir: "contain",
+    alanlar: [
+      { k: "ad", t: "Kurum adı", req: 1, full: 1 },
+      { k: "kademe", t: "Kademe", sec: KADEME, v: "destek" },
+      { k: "yil", t: "Dönem", ph: "2025 — 2026" },
+      { k: "site", t: "Web sitesi", tip: "url", ph: "https://..." },
+      { k: "sira", t: "Sıra (küçük olan önce gelir)", tip: "number", v: 0 }
+    ],
+    kutular: [
+      { k: "aktif", t: "Mevcut sponsor (kapalıysa “geçmiş sponsorlar” bölümünde görünür)", v: true },
+      { k: "yayinda", t: "Sitede yayında", v: true }
+    ],
+    sirala: ["sira", "created_at"],
+    baslik: function (r) { return r.ad; },
+    alt: function (r) { return (KADEME[r.kademe] || r.kademe) + (r.yil ? " · " + r.yil : ""); },
+    rozet: function (r) { return [r.aktif ? "Mevcut" : "Geçmiş", r.yayinda ? "Yayında" : "Gizli"]; },
+    kaynak: function () {
+      return typeof SPONSORLAR === "undefined" ? [] : SPONSORLAR.map(function (s, i) {
+        return { ad: s.ad, kademe: s.kademe, yil: s.yil || null, aktif: !!s.aktif, logo: s.logo || null, site: s.site || null, sira: i };
+      });
+    }
+  }, $("#sekme-sponsor"));
+
+  MODULLER.yonetim = modul({
+    tablo: "yonetim", klasor: "yonetim", ad: "üye", gorselAlan: "foto", gorselEtiket: "Fotoğraf", sigdir: "cover",
+    alanlar: [
+      { k: "ad", t: "Ad Soyad", req: 1, full: 1 },
+      { k: "gorev", t: "Görev", req: 1, ph: "Başkan, Sayman..." },
+      { k: "bolum", t: "Bölüm" },
+      { k: "linkedin", t: "LinkedIn bağlantısı", tip: "url", ph: "https://..." },
+      { k: "github", t: "GitHub bağlantısı", tip: "url", ph: "https://..." },
+      { k: "sira", t: "Sıra (küçük olan önce gelir)", tip: "number", v: 0 }
+    ],
+    kutular: [{ k: "yayinda", t: "Sitede yayında", v: true }],
+    sirala: ["sira", "created_at"],
+    baslik: function (r) { return r.ad; },
+    alt: function (r) { return r.gorev + (r.bolum ? " · " + r.bolum : ""); },
+    rozet: function (r) { return [r.yayinda ? "Yayında" : "Gizli"]; },
+    kaynak: function () {
+      return typeof YONETIM === "undefined" ? [] : YONETIM.map(function (u, i) {
+        return { ad: u.ad, gorev: u.gorev, bolum: u.bolum || null, foto: u.foto || null, linkedin: u.linkedin || null, github: u.github || null, sira: i };
+      });
+    }
+  }, $("#sekme-yonetim"));
+
+  // Başlangıç: mevcut oturum varsa doğrudan aç
+  db.auth.getSession().then(function (r) { oturumuKur(r.data.session); });
+  db.auth.onAuthStateChange(function (ev) { if (ev === "SIGNED_OUT") goster(false); });
+})();
+</script>
+</body>
+</html>

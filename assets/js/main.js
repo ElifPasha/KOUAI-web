@@ -337,6 +337,7 @@
           <span class="y">${t.getFullYear()}</span>
         </div>
         <div>
+          ${e.gorsel ? `<img class="event-img" src="${kacis(e.gorsel)}" alt="" loading="lazy">` : ""}
           ${rozet}
           <h3>${kacis(e.baslik)}</h3>
           <p>${kacis(e.ozet)}</p>
@@ -679,9 +680,10 @@
     animasyonlariKur(); // içerik basıldıktan sonra çalışmalı
   }
 
+  const hazirla = () => Promise.resolve(window.KOUAI_ICERIK_HAZIR).then(baslat, baslat);
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", baslat);
+    document.addEventListener("DOMContentLoaded", hazirla);
   } else {
-    baslat();
+    hazirla();
   }
 })();
