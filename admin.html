@@ -54,8 +54,8 @@
   .btn--danger{background:transparent;color:#DC2626;border-color:#FCA5A5}
   .btn--danger:hover{background:#DC2626;color:#fff;border-color:#DC2626}
   .empty{padding:48px 20px;text-align:center;color:var(--muted);border:1px dashed var(--border-strong);border-radius:var(--radius)}
-  .tabs{display:flex;gap:8px;margin-bottom:26px;border-bottom:1px solid var(--border)}
-  .tab{padding:12px 20px;background:none;border:0;border-bottom:3px solid transparent;font-weight:600;color:var(--muted);cursor:pointer;margin-bottom:-1px}
+  .tabs{display:flex;gap:8px;margin-bottom:26px;border-bottom:1px solid var(--border);overflow-x:auto}
+  .tab{white-space:nowrap;padding:12px 20px;background:none;border:0;border-bottom:3px solid transparent;font-weight:600;color:var(--muted);cursor:pointer;margin-bottom:-1px}
   .tab.on{color:var(--brand-ink);border-bottom-color:var(--brand)}
   .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .fgrid .full{grid-column:1/-1}
@@ -105,6 +105,9 @@
       <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="etkinlik">Etkinlikler</button>
       <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="sponsor">Sponsorlar</button>
       <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="yonetim">Yönetim Kurulu</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="proje">Projeler</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="arsiv">Arşiv</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-sekme="yonetici">Panel Yöneticileri</button>
     </div>
     <div id="sekme-basvuru">
     <div class="sums" id="ozet"></div>
@@ -155,11 +158,15 @@
         </div>
       </form>
 
+      <div id="e-ice"></div>
       <div id="e-liste"></div>
     </div>
 
     <div id="sekme-sponsor" hidden></div>
     <div id="sekme-yonetim" hidden></div>
+    <div id="sekme-proje" hidden></div>
+    <div id="sekme-arsiv" hidden></div>
+    <div id="sekme-yonetici" hidden></div>
   </main>
 </div>
 
@@ -384,7 +391,7 @@
       var a = t.dataset.sekme === ad;
       t.classList.toggle("on", a); t.setAttribute("aria-selected", String(a));
     });
-    ["basvuru", "etkinlik", "sponsor", "yonetim"].forEach(function (s) { $("#sekme-" + s).hidden = s !== ad; });
+    ["basvuru", "etkinlik", "sponsor", "yonetim", "proje", "arsiv", "yonetici"].forEach(function (s) { $("#sekme-" + s).hidden = s !== ad; });
     if (ad === "etkinlik" && !etkinlikYuklendi) etkinlikYukle();
     if (MODULLER[ad]) MODULLER[ad].yukle();
   }
@@ -405,6 +412,7 @@
   }
 
   function etkinlikCiz() {
+    iceAktarCiz();
     var l = $("#e-liste"); l.textContent = "";
     if (!etkinlikler.length) { l.appendChild(el("div", "empty", "Henüz etkinlik yok. “Yeni etkinlik ekle” ile ilkini oluştur.")); return; }
     etkinlikler.forEach(function (e) {
@@ -436,6 +444,38 @@
       });
       s.appendChild(a); l.appendChild(s);
     });
+  }
+
+  // data.js'teki eski etkinliklerden panelde henüz olmayanları içe aktarma çubuğu
+  function iceAktarCiz() {
+    var kap = $("#e-ice"); kap.textContent = "";
+    if (typeof ETKINLIKLER === "undefined") return;
+    var anahtar = function (b, t) { return String(b).trim().toLocaleLowerCase("tr-TR") + "|" + t; };
+    var var_ = {};
+    etkinlikler.forEach(function (e) { var_[anahtar(e.baslik, e.tarih)] = true; });
+    var eksik = ETKINLIKLER.filter(function (e) { return !var_[anahtar(e.baslik, e.tarih)]; });
+    if (!eksik.length) return;
+
+    var kutu = el("div", "msg show");
+    kutu.style.marginBottom = "18px";
+    kutu.appendChild(el("span", "", "data.js içinde panelde henüz olmayan " + eksik.length + " eski etkinlik var. "));
+    var b = el("button", "btn btn--soft btn--sm", "Hepsini içe aktar");
+    b.type = "button"; b.style.marginLeft = "8px";
+    b.addEventListener("click", async function () {
+      b.disabled = true;
+      var satirlar = eksik.map(function (e) {
+        return {
+          baslik: e.baslik, tarih: e.tarih, saat: e.saat || null, yer: e.yer || null, tur: e.tur,
+          ozet: e.ozet || "", etiketler: (e.etiketler || []).slice(0, 8), link: e.link || null,
+          one: !!e.one, yayinda: true, gorsel: null
+        };
+      });
+      var r = await db.from("etkinlikler").insert(satirlar);
+      if (r.error) { bildir($("#e-msg"), "İçe aktarılamadı: " + r.error.message, true); b.disabled = false; return; }
+      bildir($("#e-msg"), eksik.length + " etkinlik içe aktarıldı. İstediğine görsel ekleyebilir ya da silebilirsin.");
+      etkinlikYukle();
+    });
+    kutu.appendChild(b); kap.appendChild(kutu);
   }
 
   function gorselSil(url) {
@@ -583,7 +623,7 @@
         girdi[a.k].value = v == null ? "" : v;
       });
       c.kutular.forEach(function (b) { girdi[b.k].checked = r ? r[b.k] : b.v; });
-      var g = r && r[c.gorselAlan];
+      var g = c.gorselAlan && r && r[c.gorselAlan];
       kk.hidden = !g; on.hidden = !g; if (g) on.src = g;
       form.hidden = false; form.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -595,13 +635,13 @@
         c.alanlar.forEach(function (a) {
           var v = girdi[a.k].value.trim();
           if (a.tip === "url" && v && !/^https?:\/\//i.test(v)) throw new Error(a.t + " http:// veya https:// ile başlamalı.");
-          k[a.k] = a.tip === "number" ? (parseInt(v, 10) || 0) : (v || null);
+          k[a.k] = a.cevir ? a.cevir(v) : a.tip === "number" ? (parseInt(v, 10) || 0) : (v || null);
         });
         c.kutular.forEach(function (b) { k[b.k] = girdi[b.k].checked; });
         var eski = (duz && duz[c.gorselAlan]) || null, g = eski;
         if (gi.files[0]) g = await gorselYukle(gi.files[0], c.klasor);
         else if (kc.checked) g = null;
-        k[c.gorselAlan] = g;
+        if (c.gorselAlan) k[c.gorselAlan] = g;
         var r = duz ? await db.from(c.tablo).update(k).eq("id", duz.id) : await db.from(c.tablo).insert(k);
         if (r.error) throw new Error(r.error.message);
         if (eski && eski !== g) gorselSil(eski);
@@ -640,7 +680,8 @@
       rows.forEach(function (r) {
         var s = el("div", "erow"), src = r[c.gorselAlan];
         if (src) { var im = el("img", "ethumb"); im.src = src; im.alt = ""; im.style.objectFit = c.sigdir; s.appendChild(im); }
-        else s.appendChild(el("div", "ethumb ph", "Görsel yok"));
+        else if (c.gorselAlan) s.appendChild(el("div", "ethumb ph", "Görsel yok"));
+        else s.style.gridTemplateColumns = "minmax(0,1fr) auto";
         var m = el("div", "emeta"); m.appendChild(el("strong", "", c.baslik(r))); m.appendChild(el("small", "", c.alt(r)));
         var tg = el("div", "tag-list"); tg.style.marginTop = "8px";
         c.rozet(r).forEach(function (t) { tg.appendChild(el("span", "tag", t)); });
@@ -713,6 +754,113 @@
       });
     }
   }, $("#sekme-yonetim"));
+
+  /* ---------- Projeler ---------- */
+  var DURUMLAR = { "Geliştiriliyor": "Geliştiriliyor", "Yayında": "Yayında", "Tamamlandı": "Tamamlandı" };
+  MODULLER.proje = modul({
+    tablo: "projeler", ad: "proje",
+    alanlar: [
+      { k: "ad", t: "Proje adı", req: 1, full: 1 },
+      { k: "ozet", t: "Açıklama", tip: "metin", full: 1, max: 800, ph: "Proje ne yapıyor, kimlere fayda sağlıyor?" },
+      { k: "etiketler", t: "Etiketler", ph: "LLM, RAG, Türkçe",
+        goster: function (a) { return (a || []).join(", "); },
+        cevir: function (s) { return s.split(",").map(function (x) { return x.trim(); }).filter(Boolean).slice(0, 8); } },
+      { k: "durum", t: "Durum", sec: DURUMLAR, v: "Geliştiriliyor" },
+      { k: "sira", t: "Sıra (küçük olan önce gelir)", tip: "number", v: 0 }
+    ],
+    kutular: [{ k: "yayinda", t: "Sitede yayında", v: true }],
+    sirala: ["sira", "created_at"],
+    baslik: function (r) { return r.ad; },
+    alt: function (r) { return (r.etiketler || []).join(", ") || "Etiket yok"; },
+    rozet: function (r) { return [r.durum, r.yayinda ? "Yayında" : "Gizli"]; },
+    kaynak: function () {
+      return typeof PROJELER === "undefined" ? [] : PROJELER.map(function (p, i) {
+        return { ad: p.ad, ozet: p.ozet || null, etiketler: p.etiketler || [], durum: p.durum || "Geliştiriliyor", sira: i };
+      });
+    }
+  }, $("#sekme-proje"));
+
+  /* ---------- Arşiv (dönem kayıtları) ---------- */
+  MODULLER.arsiv = modul({
+    tablo: "arsiv", ad: "dönem kaydı",
+    alanlar: [
+      { k: "donem", t: "Dönem", req: 1, ph: "2025 — 2026" },
+      { k: "sira", t: "Sıra (en yeni dönem 0 olsun)", tip: "number", v: 0 },
+      { k: "ozet", t: "Dönemin kısa özeti", tip: "metin", full: 1, max: 800 },
+      { k: "etkinlik_sayisi", t: "Etkinlik sayısı", tip: "number", v: 0 },
+      { k: "katilimci_sayisi", t: "Katılımcı sayısı", tip: "number", v: 0 },
+      { k: "proje_sayisi", t: "Proje sayısı", tip: "number", v: 0 },
+      { k: "kayitlar", t: "Dönemin kayıtları (her satıra bir tane: Ad | Not)", tip: "metin", full: 1, ph: "Hackathon 2026 | 38 takım katıldı\nBootcamp | 64 mezun",
+        goster: function (a) { return (a || []).map(function (k) { return k.ad + " | " + (k["not"] || ""); }).join("\n"); },
+        cevir: function (s) {
+          return s.split("\n").map(function (l) { return l.trim(); }).filter(Boolean).slice(0, 40).map(function (l) {
+            var i = l.indexOf("|");
+            return i < 0 ? { ad: l, "not": "" } : { ad: l.slice(0, i).trim(), "not": l.slice(i + 1).trim() };
+          });
+        } }
+    ],
+    kutular: [{ k: "yayinda", t: "Sitede yayında", v: true }],
+    sirala: ["sira", "created_at"],
+    baslik: function (r) { return r.donem + " Dönemi"; },
+    alt: function (r) { return r.etkinlik_sayisi + " etkinlik · " + r.katilimci_sayisi + " katılımcı · " + r.proje_sayisi + " proje"; },
+    rozet: function (r) { return [(r.kayitlar || []).length + " kayıt", r.yayinda ? "Yayında" : "Gizli"]; },
+    kaynak: function () {
+      return typeof ARSIV === "undefined" ? [] : ARSIV.map(function (a, i) {
+        return { donem: a.donem, ozet: a.ozet || null, etkinlik_sayisi: a.sayilar.etkinlik, katilimci_sayisi: a.sayilar.katilimci,
+                 proje_sayisi: a.sayilar.proje, kayitlar: a.kayitlar || [], sira: i };
+      });
+    }
+  }, $("#sekme-arsiv"));
+
+  /* ---------- Panel yöneticileri ---------- */
+  MODULLER.yonetici = (function () {
+    var kap = $("#sekme-yonetici"), yuklu = false, benimId = null;
+    var bilgi = el("div", "msg show", "Yeni yönetici eklemek için önce Supabase'de Authentication → Users → Add user ile hesabı oluştur (“Auto Confirm User” işaretli olsun), sonra e-postasını aşağıya yaz. Bu bölüm yalnızca panel yetkisini verir ya da alır; hesabı silmez.");
+    var msg = el("div", "msg"); msg.setAttribute("role", "alert");
+    var form = el("form", "form"); form.style.cssText = "display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin:18px 0 26px";
+    var f = el("div", "field"); f.style.flex = "1 1 260px";
+    var lb = el("label", "", "Yönetici yapılacak kişinin e-postası");
+    var inp = el("input"); inp.type = "email"; inp.required = true; inp.id = "yon-eposta"; inp.autocomplete = "off"; lb.htmlFor = inp.id;
+    f.append(lb, inp);
+    var ekle = el("button", "btn btn--primary btn--sm", "Yönetici yap"); ekle.type = "submit";
+    form.append(f, ekle);
+    var liste = el("div");
+    kap.append(bilgi, msg, form, liste);
+
+    form.addEventListener("submit", async function (ev) {
+      ev.preventDefault(); ekle.disabled = true; bildir(msg, "");
+      var r = await db.rpc("yonetici_ekle", { p_eposta: inp.value.trim() });
+      ekle.disabled = false;
+      if (r.error) { bildir(msg, r.error.message, true); return; }
+      bildir(msg, inp.value.trim() + " artık panele girebilir."); inp.value = ""; yukle();
+    });
+
+    async function yukle() {
+      var k = await db.auth.getUser(); benimId = k.data && k.data.user ? k.data.user.id : null;
+      var r = await db.rpc("yoneticileri_listele");
+      if (r.error) { bildir(msg, "Liste alınamadı: " + r.error.message + " (yoneticiler.sql çalıştırıldı mı?)", true); return; }
+      yuklu = true; liste.textContent = "";
+      (r.data || []).forEach(function (y) {
+        var s = el("div", "erow"); s.style.gridTemplateColumns = "minmax(0,1fr) auto";
+        var m = el("div", "emeta"); m.appendChild(el("strong", "", y.eposta));
+        m.appendChild(el("small", "", "Yetki: " + tarih(y.eklenme) + " · Son giriş: " + (y.son_giris ? tarih(y.son_giris) : "—")));
+        if (y.user_id === benimId) { var tg = el("div", "tag-list"); tg.style.marginTop = "8px"; tg.appendChild(el("span", "tag", "Sen")); m.appendChild(tg); }
+        s.appendChild(m);
+        if (y.user_id !== benimId) {
+          var a = el("div", "acts"), b = el("button", "btn btn--sm btn--danger", "Yetkiyi kaldır"); b.type = "button";
+          b.addEventListener("click", async function () {
+            if (!confirm(y.eposta + " artık panele giremeyecek. Emin misin?")) return;
+            var x = await db.rpc("yonetici_cikar", { p_user: y.user_id });
+            if (x.error) { bildir(msg, x.error.message, true); return; }
+            bildir(msg, "Yetki kaldırıldı."); yukle();
+          });
+          a.appendChild(b); s.appendChild(a);
+        }
+        liste.appendChild(s);
+      });
+    }
+    return { yukle: function () { if (!yuklu) yukle(); } };
+  })();
 
   // Başlangıç: mevcut oturum varsa doğrudan aç
   db.auth.getSession().then(function (r) { oturumuKur(r.data.session); });

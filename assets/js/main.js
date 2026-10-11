@@ -660,7 +660,39 @@
       form.reset();
     });
   }
+    /* =================================================================
+     Sayıları arşiv kayıtlarından otomatik hesapla
+     ================================================================= */
+  function sayilariHesapla() {
+    if (typeof ARSIV === "undefined" || !ARSIV.length) return;
+    const topla = (alan) =>
+      ARSIV.reduce((t, d) => t + (Number(d.sayilar && d.sayilar[alan]) || 0), 0);
+    const yil = typeof KULUP !== "undefined" && KULUP.kurulus
+      ? new Date().getFullYear() - KULUP.kurulus : null;
 
+    const olcu = {
+      etkinlik:  { deger: topla("etkinlik"),  sonek: "" },
+      katilimci: { deger: topla("katilimci"), sonek: "+" },
+      proje:     { deger: topla("proje"),     sonek: "" },
+      yil:       { deger: yil,                sonek: "" },
+    };
+    // Sayfadaki etiket → hangi ölçü. Etiketi değiştirirsen buraya da ekle.
+    const ETIKET = {
+      "etkinlik": "etkinlik", "düzenlenen etkinlik": "etkinlik", "arşivlenen etkinlik": "etkinlik",
+      "toplam katılımcı": "katilimci", "etkinlik katılımcısı": "katilimci",
+      "kulüp projesi": "proje", "tamamlanan proje": "proje",
+      "faaliyet yılı": "yil",
+    };
+
+    $$(".lbl").forEach((l) => {
+      const o = olcu[ETIKET[l.textContent.trim().toLocaleLowerCase("tr-TR")]];
+      const sayi = l.parentElement.querySelector("[data-count]");
+      if (!o || o.deger == null || !sayi) return;
+      sayi.dataset.count = o.deger;
+      sayi.dataset.suffix = o.sonek;
+      sayi.textContent = o.deger.toLocaleString("tr-TR") + o.sonek;
+    });
+  }
   /* =================================================================
      Başlat
      ================================================================= */
@@ -677,6 +709,7 @@
     formuKur();
     kartIsigiKur();
     sinirAgiKur();
+    sayilariHesapla();
     animasyonlariKur(); // içerik basıldıktan sonra çalışmalı
   }
 

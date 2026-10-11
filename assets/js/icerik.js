@@ -45,6 +45,21 @@
     }));
   }
 
+  if (typeof PROJELER !== "undefined") {
+    isler.push(cek("projeler", [["sira", true], ["created_at", true]], PROJELER, function (p) {
+      return { ad: p.ad, ozet: p.ozet || "", etiketler: p.etiketler || [], durum: p.durum };
+    }));
+  }
+  if (typeof ARSIV !== "undefined") {
+    isler.push(cek("arsiv", [["sira", true], ["created_at", true]], ARSIV, function (a) {
+      return {
+        donem: a.donem, ozet: a.ozet || "",
+        sayilar: { etkinlik: a.etkinlik_sayisi, katilimci: a.katilimci_sayisi, proje: a.proje_sayisi },
+        kayitlar: Array.isArray(a.kayitlar) ? a.kayitlar : []
+      };
+    }));
+  }
+
   // main.js en fazla 4 sn bekler; yavaş bağlantıda site yine açılır
   var zaman = new Promise(function (res) { setTimeout(res, 4000); });
   window.KOUAI_ICERIK_HAZIR = Promise.race([Promise.all(isler), zaman]);
